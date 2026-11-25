@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" href="data:,"><title>Pond · 水草与石头模型</title>
+<style>body{margin:0;background:#e4e6dc;color:#3e5147;font:13px system-ui}canvas{display:block}header{position:fixed;inset:20px 24px auto;display:flex;justify-content:space-between;align-items:center;z-index:1}header>div{background:#f5f5ebe8;padding:12px 17px;border-radius:8px}p{margin:5px 0 0;color:#7a8574;font-size:11px}a{color:inherit;margin-right:15px}select{padding:8px;color:inherit;background:#f5f5eb;border:1px solid #bac4b5}#status{position:fixed;bottom:20px;left:24px;font-size:11px}</style></head>
+<body><header><div>水草与石头 · 实际几何标本<p>从网页共用模型取样 · 拖动旋转，滚轮缩放 · 标本等比摆放，不代表池塘分布</p></div><div><a href="scene-review.html">回到池塘</a><a href="asset-review.html?asset=about&view=oblique">树与岛岸</a><select id="view"><option value="plants">水草</option><option value="stones">石头</option></select></div></header><div id="status"></div>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+const params=new URLSearchParams(location.search),before=params.get('snapshot')==='20261104g';
+const {makePondGarden}=await import(/* @vite-ignore */ before?'/.playwright-mcp/modeling-20261104g/baseline-garden.ts':'/src/scene/PondGarden.ts');
+const garden=makePondGarden(params.get('quality')==='low'),view=params.get('view')||'plants';
+const scene=new THREE.Scene();scene.background=new THREE.Color('#e4e6dc');
+const camera=new THREE.PerspectiveCamera(32,innerWidth/innerHeight,.01,100);camera.position.set(2.8,1.9,4.9);
+const renderer=new THREE.WebGLRenderer({antialias:true});renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.shadowMap.enabled=true;document.body.append(renderer.domElement);
+const controls=new OrbitControls(camera,renderer.domElement);controls.target.set(0,.35,0);controls.update();
+scene.add(new THREE.HemisphereLight('#e4f3f5','#6c7654',1.45));const sun=new THREE.DirectionalLight('#fff1cf',2.6);sun.position.set(-3,6,4);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-4;sun.shadow.camera.right=4;sun.shadow.camera.top=4;sun.shadow.camera.bottom=-4;sun.shadow.normalBias=.005;scene.add(sun);
+const floor=new THREE.Mesh(new THREE.PlaneGeometry(100,100),new THREE.MeshStandardMaterial({color:'#d4d5c2',roughness:1}));floor.rotation.x=-Math.PI/2;floor.position.y=-.05;floor.receiveShadow=true;scene.add(floor);
+const root=new THREE.Group();scene.add(root);const object=new THREE.Object3D();
+const sources=view==='stones'?['BedStones','BedStoneSlabs','BedStoneBoulders']:['TallWaterGrass','TallWaterGrass','FeatherPondweed'];
+for(let n=0;n<sources.length;n++){
+ const source=garden.group.getObjectByName(sources[n]),isGrass=sources[n]==='TallWaterGrass',count=isGrass?4:1;
+ const batch=new THREE.InstancedMesh(source.geometry,source.material,count);batch.castShadow=batch.receiveShadow=true;
+ for(let i=0;i<count;i++){
+  const matrix=new THREE.Matrix4();source.getMatrixAt(i+n*4,matrix);matrix.decompose(object.position,object.quaternion,object.scale);
+  object.position.set((n-1)*1.15+(isGrass?Math.sin(i*2.4)*.03:0),view==='stones'?.25:0,isGrass?Math.cos(i*2.4)*.03:0);
+  if(view==='stones'){object.scale.set(.59,.59,.59);object.rotation.set(.08,n*.7,.04)}
+  else if(!isGrass)object.scale.setScalar(.90);
+  object.updateMatrix();batch.setMatrixAt(i,object.matrix);const c=new THREE.Color();source.getColorAt(i+n*4,c);batch.setColorAt(i,c);
+ }
+ root.add(batch);
+}
+garden.update(40);const render=()=>renderer.render(scene,camera);controls.addEventListener('change',render);render();
+document.querySelector('#view').value=view;document.querySelector('#view').onchange=e=>{params.set('view',e.target.value);location.search=params.toString()};
+document.querySelector('#status').textContent=(before?'修改前':'当前模型')+' · '+root.children.reduce((n,m)=>n+(m.geometry.index?.count??m.geometry.attributes.position.count)/3*m.count,0).toLocaleString()+' 三角面';
+window.pondReview={scene,camera,controls,renderer,root,garden};document.body.dataset.ready='true';
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);render()});
+</script></body></html>

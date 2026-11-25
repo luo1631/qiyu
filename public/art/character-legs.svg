@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="140" height="220" viewBox="0 0 140 220">
+<title>character-legs</title><defs>
+  <linearGradient id="c-skin" x1=".2" y1="0" x2=".85" y2="1">
+    <stop stop-color="#ffe2c7"/><stop offset="1" stop-color="#f1c9ab"/>
+  </linearGradient>
+  <linearGradient id="c-hair" x1=".2" y1="0" x2=".8" y2="1">
+    <stop stop-color="#d4ded1"/><stop offset=".6" stop-color="#c6d2c3"/><stop offset="1" stop-color="#afc0ad"/>
+  </linearGradient>
+  <linearGradient id="c-shirt" x1="0" y1="0" x2=".85" y2="1">
+    <stop stop-color="#f4f3df"/><stop offset=".65" stop-color="#e7ebd2"/><stop offset="1" stop-color="#cfd7bc"/>
+  </linearGradient>
+  <linearGradient id="c-shorts" x1=".1" y1="0" x2=".9" y2="1">
+    <stop stop-color="#a7aaa8"/><stop offset=".55" stop-color="#8f9593"/><stop offset="1" stop-color="#787f7d"/>
+  </linearGradient>
+</defs>
+<g stroke-linecap="round" stroke-linejoin="round">
+  <g stroke="#536056" stroke-width="1.25">
+    <path d="M57 144C56 157 56 168 55 179L53 186Q50 190 53 194C56 196 61 195 62 193Q63 191 60 187L62 177C65 165 67 155 67 147Z" fill="url(#c-skin)"/>
+    <path d="M74 146C75 159 76 168 78 179L79 188Q78 193 82 195C85 197 91 195 91 192Q90 189 86 187L86 176C85 164 84 154 84 146Z" fill="url(#c-skin)"/>
+    <path d="M64 150Q64 166 60 179L59 185 61 188Q59 178 63 166L67 150ZM80 149Q79 167 82 178L83 187 86 190 86 177 84 150Z" fill="#dcae92" stroke="none" opacity=".4"/>
+    <path d="M57 158Q56.5 166 57 170M77 159l2 10" fill="none" stroke="#fff0d6" stroke-width="1.4"/>
+    <path d="M57 173l2 .5M80 175l2-.5M54 191q2 2 5 1M84 192l3 .2" fill="none" stroke="#bc977f" stroke-width=".65"/>
+    <path d="M54 194v-1.4M56 194.5v-1.3M88 194l-.7-1.2" fill="none" stroke="#be9d86" stroke-width=".5"/>
+  </g>
+  <!-- Soft grey cotton shorts: loose legs, a visible crotch, quiet seams. -->
+  <path d="M54 132Q69 128 86 132L89 154Q82 158 73 155L70 146 68 155Q59 157 51 153Z" fill="url(#c-shorts)" stroke="#4f5953" stroke-width="1.5"/>
+  <path d="M57 138 54 151Q59 154 66 153L69 143 72 144 75 154Q81 155 86 153L84 139" fill="none" stroke="#c2c5be" stroke-width=".85"/>
+  <path d="M70 138v8M57 139l-1 5M81 137q-1 6 4 9" fill="none" stroke="#707b75" stroke-width=".85"/>
+  <path d="M52 152q8 3 15 1M74 154q8 2 14-1" fill="none" stroke="#6b7570" stroke-width=".9"/>
+</g></svg>

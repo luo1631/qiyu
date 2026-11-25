@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="140" height="220" viewBox="0 0 140 220">
+<title>A quiet afternoon on the pond</title>
+<desc>A sage-haired, cat-eared daydreamer rests with hands behind their head in a small wooden boat.</desc>
+<defs>
+  <linearGradient id="hull" gradientUnits="userSpaceOnUse" x1="30" y1="45" x2="108" y2="177">
+    <stop stop-color="#e0bf8d"/><stop offset=".43" stop-color="#be9768"/><stop offset="1" stop-color="#927552"/>
+  </linearGradient>
+  <linearGradient id="deck" gradientUnits="userSpaceOnUse" x1="39" y1="51" x2="101" y2="183">
+    <stop stop-color="#edcf9f"/><stop offset=".5" stop-color="#dabc8b"/><stop offset="1" stop-color="#c9a574"/>
+  </linearGradient>
+  <linearGradient id="paddle" gradientUnits="userSpaceOnUse" x1="119" y1="157" x2="137" y2="192">
+    <stop stop-color="#e7c595"/><stop offset=".55" stop-color="#cfaa78"/><stop offset="1" stop-color="#b89161"/>
+  </linearGradient>
+  <pattern id="linen" width="3" height="3" patternUnits="userSpaceOnUse">
+    <path d="M0 .5H3M.5 0V3" stroke="#b8bda0" stroke-width=".3" opacity=".25"/>
+  </pattern>
+  <clipPath id="deck-clip">
+    <path d="M70 23C99 49 105 96 100 146 96 171 85 191 71 200 54 191 41 170 39 146 32 94 42 47 70 23Z"/>
+  </clipPath>
+</defs>
+<g stroke-linecap="round" stroke-linejoin="round">
+  <!-- Water-tinted underside and a thin wet edge. -->
+  <ellipse cx="74" cy="126" rx="39" ry="82" fill="#4e7e70" opacity=".09"/>
+  <path d="M72 16C111 46 117 103 109 152 103 184 87 204 72 213 53 207 35 185 30 153 23 105 32 49 72 16Z" fill="#6a9581" opacity=".1"/>
+  <path d="M70 13C107 40 116 95 109 149 106 177 91 200 71 211 47 202 33 177 30 148 23 89 35 41 70 13Z" fill="url(#hull)" stroke="#817357" stroke-width="1.8"/>
+  <path d="M71 205Q99 184 106 143" fill="none" stroke="#776d53" stroke-width="2.1" opacity=".45"/>
+  <path d="M70 20C100 46 107 94 102 146 98 171 86 192 71 201 54 192 40 170 37 146 30 94 41 46 70 20Z" fill="url(#deck)" stroke="#efcf9e" stroke-width="2.4"/>
+  <path d="M67 23C41 50 34 96 39 145 43 171 54 188 69 199" fill="none" stroke="#fff0c8" stroke-width="1.3" opacity=".72"/>
+  <path d="M75 26Q105 65 103 125" fill="none" stroke="#9e805a" stroke-width="1.1" opacity=".63"/>
+  <!-- Uneven plank grain stays inside the hull. -->
+  <g clip-path="url(#deck-clip)" fill="none">
+    <path d="M54 38Q43 82 48 124T54 183M70 24Q68 79 71 124T70 203M84 40Q98 87 91 129T86 183" stroke="#ae8c60" stroke-width=".85" opacity=".7"/>
+    <path d="M58 37Q52 58 54 76M43 108Q46 117 45 133M57 149Q59 161 58 172M78 30Q86 43 88 54M91 148Q86 166 89 175M64 187 65 196M75 177Q79 186 77 193" stroke="#f4deb4" stroke-width=".85" opacity=".75"/>
+    <path d="M61 31Q57 42 59 49M42 145 46 157M80 180Q84 184 82 190" stroke="#a88b62" stroke-width=".7" opacity=".5"/>
+    <ellipse cx="52" cy="154" rx="1.7" ry="4.5" stroke="#aa8c62" stroke-width=".6" opacity=".6"/>
+    <path d="M51 152q2 2 1 4M83 183q-2 4 0 7" stroke="#bba074" stroke-width=".55"/>
+  </g>
+  <path d="M40 164 98 163 96 176 45 177Z" fill="#8c7959" opacity=".2"/>
+  <path d="M41 161 99 161 96 172 45 173Z" fill="#c6a473" stroke="#a08761" stroke-width="1"/>
+  <path d="M45 163H95M47 169 94 168" fill="none" stroke="#e8c591" stroke-width=".75"/>
+  <path d="M40 78 101 78 102 89 39 90Z" fill="#9c825c" opacity=".25"/>
+  <path d="M39 76 101 76 103 86 38 87Z" fill="#ceb080" stroke="#a48a60" stroke-width="1"/>
+  <path d="M42 79 99 78" stroke="#f1d3a1" stroke-width=".8"/>
+  <!-- A small rope loop and rim lashings add scale without visual clutter. -->
+  <ellipse cx="70" cy="31" rx="3.5" ry="2" fill="#9c825a" stroke="#e2c699" stroke-width=".8"/>
+  <path d="M69 30q-6-4-5-7 2-2 5 1 5 3 3 6M67 25q-1-3 1-4" fill="none" stroke="#d9c8a0" stroke-width="1.3"/>
+  <path d="m32 126 7 2m-7 2 7 2m-7 2 7 2M101 129l7-2m-7 6 6-2" fill="none" stroke="#ead4a6" stroke-width="1.05"/>
+  <circle cx="43" cy="166" r="1" fill="#918563"/><circle cx="96" cy="165" r="1" fill="#918563"/>
+
+  <!-- The pillow follows the weight of the head, with soft linen seams. -->
+  <path d="M44 59Q66 49 94 60L98 94Q72 105 42 92Z" fill="#826f51" opacity=".13"/>
+  <path d="M44 56Q66 46 92 58L96 90Q71 101 42 88Z" fill="#ede7ce" stroke="#b3b491" stroke-width="1"/>
+  <path d="M45 58Q65 50 90 60L93 87Q70 96 45 86Z" fill="url(#linen)"/>
+  <path d="M47 60Q65 52 88 61M46 85Q68 94 91 86" fill="none" stroke="#fff6df" stroke-width="1.2"/>
+  <path d="M46 62 45 80M91 64 93 81" fill="none" stroke="#c5c8a8" stroke-width=".65" stroke-dasharray="1.2 2"/>
+  <path d="M45 59 48 63M90 60 87 64M45 86 49 83M92 86 88 84" fill="none" stroke="#c5c8aa" stroke-width=".75"/>
+
+  <!-- CHARACTER -->
+
+  <!-- A resting oar: fine grain, a rounded blade, a small rope keeper. -->
+  <path d="m100 99 6-4 24 72-6 3Z" fill="#887953" opacity=".18" transform="translate(2 3)"/>
+  <path d="m98 98 7-4 25 71-7 3Z" fill="#b4996b" stroke="#8d805b" stroke-width="1"/>
+  <path d="m101 100 23 63" stroke="#ead0a0" stroke-width=".9"/>
+  <path d="M120 157Q129 155 133 170L137 191Q139 199 132 200 126 200 124 192L119 174Q116 161 120 157Z" fill="url(#paddle)" stroke="#9d8962" stroke-width="1.1"/>
+  <path d="M121 162Q121 176 131 195" fill="none" stroke="#f4dbad" stroke-width="1.1"/>
+  <path d="M125 164Q124 174 130 184M130 188l2 5" fill="none" stroke="#a98d60" stroke-width=".65" opacity=".65"/>
+  <path d="M120 166 131 164M121 169 132 167" fill="none" stroke="#b19567" stroke-width=".7"/>
+  <path d="M105 118q-6-2-5-6 2-3 6 1m-6 1 7-1" fill="none" stroke="#e3d2a6" stroke-width="1"/>
+</g>
+</svg>

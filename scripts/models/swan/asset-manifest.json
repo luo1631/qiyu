@@ -1,0 +1,30 @@
+{
+  "asset": "CR_Swan",
+  "bytes": 1421116,
+  "triangles": 32016,
+  "boundsBlender": [
+    [
+      -1.5312310457229614,
+      1.5312310457229614
+    ],
+    [
+      -0.8155017495155334,
+      0.810081422328949
+    ],
+    [
+      -0.22464744746685028,
+      1.0448813438415527
+    ]
+  ],
+  "materials": 5,
+  "meshes": 6,
+  "roundtrip": "pass",
+  "inferred": "hidden underside, feet, back and feather rows",
+  "animation": "glide, water run, low flight and landing; skinned shoulders and wrists, tucked wings and neck reach",
+  "flightJoints": [
+    "SwanShoulder_L",
+    "SwanWrist_L",
+    "SwanShoulder_R",
+    "SwanWrist_R"
+  ]
+}

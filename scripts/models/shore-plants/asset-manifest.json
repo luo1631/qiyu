@@ -1,0 +1,202 @@
+{
+  "units": "metres",
+  "authoringAxes": "Z up",
+  "runtimeAxes": "Y up",
+  "references": [
+    "ref/grass-clumps.png",
+    "ref/shrub-forms.png"
+  ],
+  "inferred": "Absolute dimensions, camera elevation and hidden sides; reference is a concept sheet, not calibrated orthographic views.",
+  "animation": "static",
+  "materials": "vertex pigment, roughness .88; no textures",
+  "assets": [
+    {
+      "name": "EN_GrassSmall",
+      "triangles": 4572,
+      "rootCount": 9,
+      "boundsZUp": [
+        [
+          -0.6007121801376343,
+          0.6829981207847595
+        ],
+        [
+          -0.47041481733322144,
+          0.4710181951522827
+        ],
+        [
+          0.000504421885125339,
+          0.4465014338493347
+        ]
+      ]
+    },
+    {
+      "name": "EN_GrassMedium",
+      "triangles": 11684,
+      "rootCount": 23,
+      "boundsZUp": [
+        [
+          -0.8965138792991638,
+          0.9604352116584778
+        ],
+        [
+          -0.7226985096931458,
+          0.6913525462150574
+        ],
+        [
+          0.0007432273123413324,
+          0.6090304851531982
+        ]
+      ]
+    },
+    {
+      "name": "EN_GrassLarge",
+      "triangles": 23876,
+      "rootCount": 47,
+      "boundsZUp": [
+        [
+          -1.4508285522460938,
+          1.3735078573226929
+        ],
+        [
+          -0.9162077903747559,
+          0.9591611623764038
+        ],
+        [
+          0.0004835146537516266,
+          0.43123355507850647
+        ]
+      ]
+    },
+    {
+      "name": "EN_ShrubSpreading",
+      "triangles": 4280,
+      "rootCount": 1,
+      "boundsZUp": [
+        [
+          -1.0019155740737915,
+          1.1259654760360718
+        ],
+        [
+          -0.7547045350074768,
+          0.7506510019302368
+        ],
+        [
+          0.017907768487930298,
+          0.8478453159332275
+        ]
+      ]
+    },
+    {
+      "name": "EN_ShrubCompact",
+      "triangles": 7840,
+      "rootCount": 1,
+      "boundsZUp": [
+        [
+          -0.7866520285606384,
+          0.8761141300201416
+        ],
+        [
+          -0.6708170175552368,
+          0.6840928792953491
+        ],
+        [
+          0.017991436645388603,
+          1.2330939769744873
+        ]
+      ]
+    },
+    {
+      "name": "EN_ShrubOpen",
+      "triangles": 3560,
+      "rootCount": 1,
+      "boundsZUp": [
+        [
+          -0.957655668258667,
+          1.0909117460250854
+        ],
+        [
+          -0.3339249789714813,
+          0.5624893307685852
+        ],
+        [
+          0.01799144223332405,
+          1.4653451442718506
+        ]
+      ]
+    },
+    {
+      "name": "EN_Groundcover",
+      "triangles": 2048,
+      "rootCount": 1,
+      "boundsZUp": [
+        [
+          -0.5367103815078735,
+          0.46994608640670776
+        ],
+        [
+          -0.4872751533985138,
+          0.3969566226005554
+        ],
+        [
+          0.0010000000474974513,
+          0.2578836977481842
+        ]
+      ]
+    },
+    {
+      "name": "EN_MeadowFlowers",
+      "triangles": 3476,
+      "rootCount": 1,
+      "boundsZUp": [
+        [
+          -0.5064758062362671,
+          0.4649774134159088
+        ],
+        [
+          -0.40723639726638794,
+          0.3862389624118805
+        ],
+        [
+          0.0010000000474974513,
+          0.39149999618530273
+        ]
+      ]
+    }
+  ],
+  "compactGrass": [
+    {
+      "name": "GrassCompactRoot0",
+      "triangles": 160
+    },
+    {
+      "name": "GrassCompactRoot1",
+      "triangles": 160
+    },
+    {
+      "name": "GrassCompactRoot2",
+      "triangles": 160
+    }
+  ],
+  "compactPlants": [
+    {
+      "name": "PlantLow_EN_ShrubSpreading",
+      "triangles": 1498
+    },
+    {
+      "name": "PlantLow_EN_ShrubCompact",
+      "triangles": 2744
+    },
+    {
+      "name": "PlantLow_EN_ShrubOpen",
+      "triangles": 1246
+    },
+    {
+      "name": "PlantLow_EN_Groundcover",
+      "triangles": 716
+    },
+    {
+      "name": "PlantLow_EN_MeadowFlowers",
+      "triangles": 1216
+    }
+  ]
+}

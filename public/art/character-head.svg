@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="140" height="220" viewBox="0 0 140 220">
+<title>character-head</title><defs>
+  <linearGradient id="c-skin" x1=".2" y1="0" x2=".85" y2="1">
+    <stop stop-color="#ffe2c7"/><stop offset="1" stop-color="#f1c9ab"/>
+  </linearGradient>
+  <linearGradient id="c-hair" x1=".2" y1="0" x2=".8" y2="1">
+    <stop stop-color="#d4ded1"/><stop offset=".6" stop-color="#c6d2c3"/><stop offset="1" stop-color="#afc0ad"/>
+  </linearGradient>
+  <linearGradient id="c-shirt" x1="0" y1="0" x2=".85" y2="1">
+    <stop stop-color="#f4f3df"/><stop offset=".65" stop-color="#e7ebd2"/><stop offset="1" stop-color="#cfd7bc"/>
+  </linearGradient>
+  <linearGradient id="c-shorts" x1=".1" y1="0" x2=".9" y2="1">
+    <stop stop-color="#a7aaa8"/><stop offset=".55" stop-color="#8f9593"/><stop offset="1" stop-color="#787f7d"/>
+  </linearGradient>
+</defs>
+<g stroke-linecap="round" stroke-linejoin="round">
+  <!-- A single flowing back silhouette; fewer, larger tufts read at 30 px. -->
+  <path d="M39 62C42 46 62 40 79 45Q100 44 105 67C111 78 109 87 115 90Q109 92 105 88L108 103Q102 103 99 99L99 113Q91 112 87 107L81 114Q72 112 68 107Q57 114 49 111L50 103 41 109 43 96 34 100Q38 89 35 79Q31 68 39 62Z" fill="#b7c7b3" stroke="#3d4e41" stroke-width="1.85"/>
+  <path d="M40 78Q39 91 44 98L43 104 49 100 49 105Q59 108 68 102L81 108 88 103 94 108 94 98Q105 97 104 83L99 73Z" fill="#91a98f" opacity=".38"/>
+  <path d="M43 87q-1 10 4 13M52 97q4 8 12 7M93 90q3 9 0 14" fill="none" stroke="#dce5ce" stroke-width="1.25"/>
+  <!-- The face is broad and quiet. Bangs cover the eyes, not the whole face. -->
+  <path d="M46 68Q49 55 70 55C89 54 102 66 102 81L99 91Q94 104 78 107C61 110 49 101 45 91Q42 81 46 68Z" fill="url(#c-skin)" stroke="#3d4e41" stroke-width="1.7"/>
+  <path d="M47 87Q49 101 67 104M98 83q0 10-7 15" fill="none" stroke="#dfb596" stroke-width=".8" opacity=".7"/>
+  <ellipse cx="56" cy="92" rx="5" ry="1.6" fill="#df9d8d" opacity=".23"/>
+  <ellipse cx="91" cy="91" rx="4.2" ry="1.5" fill="#df9d8d" opacity=".2"/>
+  <path d="M77 99q3-2.5 6-1.6" fill="none" stroke="#56604e" stroke-width="1.05"/>
+  <!-- A tiny meadow stem in the corner of the mouth, no smoke or effects. -->
+  <path d="m82 98 11-1" fill="none" stroke="#617459" stroke-width=".9"/>
+  <path d="M89 97q1-4 4-4-1 3-4 4" fill="#9eae7f" stroke="#768866" stroke-width=".45"/>
+  <!-- Broad, asymmetric bangs and rounded side locks follow the reference. -->
+  <path d="M37 63C39 48 53 43 68 43C85 40 97 47 106 56Q110 60 116 61L105 65 112 72Q106 74 101 70C104 80 102 87 99 90Q93 86 92 77L90 68Q87 72 81 69L76 65C78 74 75 82 71 87L69 77Q65 87 59 90L57 80Q55 91 53 95L56 101Q43 99 39 89C34 78 34 70 37 63Z" fill="url(#c-hair)" stroke="#3d4e41" stroke-width="1.85"/>
+  <!-- Big graphic highlights survive downsampling; fine strands stay sparse. -->
+  <path d="M45 61Q52 52 65 52L63 58 58 57 53 62 50 59 45 65Z" fill="#f5f6e9" opacity=".92"/>
+  <path d="M76 48Q90 47 99 55" fill="none" stroke="#f5f6e9" stroke-width="1.7"/>
+  <path d="M79 51q10 0 15 4" fill="none" stroke="#eaf0df" stroke-width=".9"/>
+  <path d="M66 47C77 46 79 57 76 65M43 72q-2 12 4 18M59 67q2 10-1 14M94 59q7 8 7 18" fill="none" stroke="#8fa88e" stroke-width="1.05"/>
+  <path d="M40 65 39 68M49 78q-1 5 1 8M84 58l4 4" fill="none" stroke="#e4ebd7" stroke-width="1.2"/>
+  <!-- Two warm ivory barrettes: recognisable even in the small pond sprite. -->
+  <g transform="rotate(-24 40 64)" stroke="#465044" stroke-width="1.1">
+    <rect x="35" y="59" width="10" height="3.8" rx=".65" fill="#d0b58c"/>
+    <rect x="34" y="65" width="10" height="3.8" rx=".65" fill="#d0b58c"/>
+    <path d="M38 59.5h4v2.8h-4ZM37 65.5h4v2.8h-4Z" fill="#f8ecd2" stroke="none"/>
+  </g>
+</g></svg>
