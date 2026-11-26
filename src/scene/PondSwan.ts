@@ -2,11 +2,15 @@ import {
   Bone, CatmullRomCurve3, Color, Float32BufferAttribute, Group, MathUtils, Mesh, MeshBasicMaterial,
   MeshStandardMaterial, ShapeUtils, Skeleton, SkinnedMesh, SphereGeometry, Uint16BufferAttribute, Vector2, Vector3,
 } from 'three';
-import { disposeSculpture } from './PondCreatures';
-import { lifeScale } from './shore-layout';
+import { disposeSculpture } from './sculpture';
 import { makeSwanTail, makeSwanWing, swanSurface } from './swan-feathers';
-import { turtlePaddle } from './locomotion';
-import type { SwanLife } from './wildlife-life';
+
+interface SwanPose {
+  x: number; y: number; z: number; waterHeight: number; yaw: number; pitch: number; roll: number; speed: number;
+  mode: 'glide' | 'rest' | 'turn' | 'takeoff' | 'flight' | 'land';
+  wingOpen: number; wingPower: number; brake: number; stroke: number; reach: number; feet: number; footPhase: number;
+  swimPhase?: number; swimTurn?: number;
+}
 
 type Section = readonly [y: number, z: number, breadth: number, depth: number];
 const trunk: readonly Section[] = [
@@ -36,8 +40,8 @@ const flightTrunk: readonly Section[] = [
   ...trunk.slice(14).map(([y, z, breadth, depth]) =>
     [y + flightHeadShift.y, z + flightHeadShift.z, breadth, depth] as const),
 ];
-const milk = new Color('#f8f5eb'), down = new Color('#d3d6d3');
-const orange = new Color('#d88a48'), umber = new Color('#804c30');
+const milk = new Color('#fff8ec'), down = new Color('#dddcd3');
+const orange = new Color('#cf884f'), umber = new Color('#805235');
 const softGrey = new Color('#4e5659'), darkGrey = new Color('#303539');
 const sideAxis = new Vector3(1, 0, 0);
 
@@ -73,7 +77,7 @@ function loft(
 }
 
 function plumageMaterial() {
-  const material = new MeshStandardMaterial({ color: '#ffffff', vertexColors: true, roughness: .82 });
+  const material = new MeshStandardMaterial({ color: '#ffffff', vertexColors: true, roughness: .75 });
   material.onBeforeCompile = shader => {
     shader.vertexShader = 'varying vec3 birdSkin;\n' + shader.vertexShader.replace(
       '#include <begin_vertex>', '#include <begin_vertex>\nbirdSkin = position;',
@@ -230,9 +234,9 @@ export function makePondSwan() {
   const root = new Group();
   root.name = 'swan';
   root.userData.pondBodyId = 'swan';
-  root.scale.setScalar(lifeScale);
+  root.scale.setScalar(.75);
 
-  const plumage = new MeshStandardMaterial({ vertexColors: true, roughness: .77 });
+  const plumage = new MeshStandardMaterial({ vertexColors: true, roughness: .74 });
   const body = makeSwanBody(), face = makeFace(body.head);
   const wings = ([-1, 1] as const).map(side => makeSwanWing(side, plumage));
   const footMaterial = new MeshStandardMaterial({ vertexColors: true, roughness: .73 });
@@ -244,7 +248,7 @@ export function makePondSwan() {
   root.add(body.mesh, ...wings.map(wing => wing.mesh), makeSwanTail(plumage), ...feet.map(foot => foot.hip), touch);
 
   return { root, wings: wings.map(wing => wing.mesh),
-    pose(pose: SwanLife['pose'], time: number, headTurn: number, attention: number) {
+    pose(pose: SwanPose, time: number, headTurn: number, attention: number) {
       const reach = pose.reach;
       const swimming = pose.mode === 'glide' || pose.mode === 'rest' || pose.mode === 'turn';
       const turn = pose.swimTurn ?? 0, afloat = MathUtils.clamp(1 - (pose.y - pose.waterHeight) / .19, 0, 1);
@@ -262,8 +266,8 @@ export function makePondSwan() {
       feet.forEach(({ hip, ankle, web }, i) => {
         const side = i === 0 ? -1 : 1;
         const running = pose.mode === 'takeoff' || pose.mode === 'flight' ? Math.max(0, -pose.feet) : 0;
-        const paddle = turtlePaddle(pose.swimPhase ?? time * 3, side, false);
-        const sweep = (paddle.sweep - .2 * paddle.recovery) * (1 - side * turn * .68)
+        const paddle = (pose.swimPhase ?? time * 3) + (side > 0 ? Math.PI : 0);
+        const sweep = (Math.cos(paddle) - .2 * Math.max(0, -Math.sin(paddle))) * (1 - side * turn * .68)
           * Math.min(.5, pose.speed * 1.75 + Math.abs(turn) * .26) * afloat * Number(swimming);
         const step = Math.sin(pose.footPhase + i * Math.PI) * .88;
         hip.rotation.x = sweep + step * running - 1.06 * tuck + (pose.mode === 'land' ? pose.feet * .50 : 0);

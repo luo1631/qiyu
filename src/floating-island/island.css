@@ -1,0 +1,257 @@
+:root {
+  color-scheme: light dark;
+  font-family: system-ui, -apple-system, "Microsoft YaHei UI", sans-serif;
+  font-synthesis: none;
+  background: #a2c4d1;
+}
+body {
+  margin: 0;
+}
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
+button {
+  font: inherit;
+}
+.floating-island {
+  --ink: #223e48;
+  --secondary: #294650;
+  --glass: #eaf3f1e6;
+  --glass-edge: #f4ffffab;
+  --hover: #57778725;
+  --selected: #305461;
+  --selected-ink: #f5f2df;
+  --text-light: #eef7ef99;
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
+  height: 100dvh;
+  overflow: hidden;
+  color: var(--ink);
+  background: radial-gradient(ellipse at 23% 29%, #e7eee48f 0%, transparent 62%),
+    linear-gradient(165deg, #92bdd3 0%, #b7d5dd 45%, #d3e5e4 71%, #aacace 100%);
+}
+.floating-island[data-night="true"] {
+  --ink: #f2efe5;
+  --secondary: #e1e8e9;
+  --glass: #243a54e8;
+  --glass-edge: #a6b9ce46;
+  --hover: #94afca3c;
+  --selected: #e7c897;
+  --selected-ink: #303546;
+  --text-light: #182b46b3;
+}
+.island-sky, .island-sky::before, .island-sky::after, .island-canvas {
+  position: absolute;
+  inset: 0;
+}
+.island-sky::before, .island-sky::after {
+  content: "";
+  transition: opacity .82s ease;
+}
+.island-sky::before {
+  opacity: calc(var(--twilight) * .82);
+  background: radial-gradient(ellipse at 25% 59%, #edd2b3, transparent 68%),
+    linear-gradient(164deg, #728eac, #abacbd 47%, #d3b8b2 74%, #80a6b5);
+}
+.island-sky::after {
+  opacity: var(--night);
+  background: radial-gradient(ellipse at 37% 22%, #45617b, transparent 72%),
+    linear-gradient(160deg, #1c2d48 0%, #294258 51%, #476273 78%, #364f67 100%);
+}
+.island-still {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+.island-still img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+.island-canvas {
+  z-index: 1;
+}
+.island-canvas canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  outline: none;
+  cursor: grab;
+  touch-action: none;
+  transition: opacity .44s ease;
+  opacity: 0;
+}
+.floating-island[data-ready="true"] canvas {
+  opacity: 1;
+}
+.island-canvas canvas:active { cursor: grabbing; }
+.island-canvas canvas[data-placement]:not([data-placement=""]) { cursor: crosshair; }
+.island-canvas[data-placing="true"]:has(canvas:focus-visible)::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 15px;
+  height: 15px;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(var(--ink), var(--ink)) center / 1px 100% no-repeat,
+    linear-gradient(var(--ink), var(--ink)) center / 100% 1px no-repeat;
+  filter: drop-shadow(0 0 1px #161628);
+  pointer-events: none;
+}
+.island-canvas canvas:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: -4px;
+}
+.island-header {
+  position: absolute;
+  z-index: 2;
+  top: max(30px, env(safe-area-inset-top));
+  left: max(40px, env(safe-area-inset-left));
+  right: max(40px, env(safe-area-inset-right));
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  pointer-events: none;
+}
+.island-back {
+  pointer-events: auto;
+  color: inherit;
+  text-decoration: none;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  padding-right: 6px;
+}
+.island-back:hover { text-decoration: underline; text-underline-offset: 4px; }
+.island-back span { font-size: 17px; }
+.island-identity h1 {
+  margin: 7px 0 0;
+  font: 400 clamp(29px, 4.1vw, 66px) / 1.1 Georgia, "Noto Serif CJK SC", "Songti SC", SimSun, serif;
+  letter-spacing: .04em;
+  text-shadow: 0 1px 6px var(--text-light);
+}
+.island-local-time {
+  margin-top: 6px;
+  border-radius: 99px;
+  padding: 7px 12px;
+  border: 1px solid var(--glass-edge);
+  background: var(--glass);
+  box-shadow: 0 7px 25px #183f4811;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.island-local-time span {
+  opacity: .78;
+  margin-right: .25em;
+}
+.island-bottom {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  bottom: max(24px, calc(env(safe-area-inset-bottom) + 12px));
+  transform: translateX(-50%);
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  max-width: calc(100% - 20px);
+  pointer-events: none;
+}
+.island-hint {
+  margin: 0;
+  color: var(--secondary);
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  pointer-events: none;
+  text-shadow: 0 1px 4px var(--text-light);
+}
+.floating-island[data-ready="false"] .island-hint { visibility: hidden; }
+.island-touch { display: none; }
+.island-controls, .island-light {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.island-controls {
+  padding: 5px;
+  border: 1px solid var(--glass-edge);
+  border-radius: 100px;
+  background: var(--glass);
+  color: var(--ink);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 9px 28px #1113214a;
+  pointer-events: auto;
+}
+.island-controls button {
+  min-height: 43px;
+  border: 0;
+  border-radius: 100px;
+  padding: 0 16px;
+  color: inherit;
+  background: transparent;
+  font-size: 13px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color .17s ease, color .17s ease;
+}
+.island-controls button:is([aria-pressed="true"], [aria-expanded="true"]) {
+  background: var(--selected);
+  color: var(--selected-ink);
+}
+.island-controls button:not([aria-pressed="true"], [aria-expanded="true"], :disabled):hover {
+  background: var(--hover);
+}
+.island-controls button:disabled {
+  opacity: .5;
+  cursor: default;
+}
+.island-reset span { font-size: 17px; }
+.island-edit { margin-left: 2px; }
+.island-placement { justify-self: end; }
+.island-placement[hidden] { display: none; }
+.island-controls button:focus-visible, .island-back:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+.island-status {
+  position: absolute;
+  z-index: 2;
+  bottom: max(112px, calc(env(safe-area-inset-bottom) + 98px));
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  max-width: 80vw;
+  padding: 9px 16px;
+  border-radius: 14px;
+  background: var(--glass);
+  color: var(--ink);
+  font-size: 14px;
+  text-align: center;
+  white-space: nowrap;
+}
+@media (max-width: 680px) {
+  .island-header {
+    top: max(16px, env(safe-area-inset-top));
+    left: max(19px, env(safe-area-inset-left));
+    right: max(19px, env(safe-area-inset-right));
+  }
+  .island-identity h1 { font-size: clamp(31px, 6vw, 42px); }
+  .island-controls button { padding-inline: clamp(8px, 2.5vw, 12px); }
+}
+@media (pointer: coarse) {
+  .island-touch { display: inline; }
+  .island-mouse { display: none; }
+  .island-controls button { min-height: 44px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .island-sky::before, .island-sky::after, .island-canvas canvas, .island-controls button {
+    transition: none;
+  }
+}

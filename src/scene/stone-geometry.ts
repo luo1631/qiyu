@@ -1,5 +1,5 @@
 import { BufferGeometry, Color, Float32BufferAttribute, MathUtils, MeshStandardMaterial } from 'three';
-import { skyNoiseGLSL } from './PondAtmosphere';
+import { skyNoiseGLSL } from './surface-noise';
 
 const profiles = [
   [[-.61,.49],[-.52,.70],[-.27,.93],[-.016,1],[.27,.87],[.49,.71],[.62,.47],[.65,.14]],

@@ -1,6 +1,6 @@
 import { LinearFilter, LinearMipmapLinearFilter, MeshStandardMaterial, Quaternion, Vector3 } from 'three';
 import type { Material, Object3D } from 'three';
-import { skyNoiseGLSL } from './PondAtmosphere';
+import { skyNoiseGLSL } from './surface-noise';
 
 const timberAxes = new Map([
   ['LandingWood', new Vector3(1, 0, 1)],

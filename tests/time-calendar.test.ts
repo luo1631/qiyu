@@ -1,11 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { PerspectiveCamera, Vector3 } from 'three';
+import { Vector3 } from 'three';
 import { civilTime } from '../src/config/clock';
-import { horizontalToWorld, lightingAt, nextPhaseTime, observerAt } from '../src/scene/time';
-import { pondFraming } from '../src/scene/world-layout';
-import { makePondAtmosphere } from '../src/scene/PondAtmosphere';
-import { pondSkyLight } from '../src/scene/sky-light';
+import { lightingAt, nextPhaseTime, observerAt } from '../src/scene/time';
 
 const zone='Asia/Shanghai';
 const pacificTimeZone='America/Los_Angeles';
@@ -83,35 +80,8 @@ test('29°N seasonal solar altitudes and date-dependent moon phases follow indep
   assert.ok(daytimeMoon,'Moon is not mechanically opposite the Sun');
 });
 
-test('all camera aspect ratios keep north up, east left and west right',()=>{
-  for(const [w,h] of [[1440,900],[390,844],[320,720],[844,390]]){
-    const f=pondFraming(w,h),camera=new PerspectiveCamera(f.fov,w/h,.1,1200);
-    camera.position.set(...f.position);camera.lookAt(0,.5,0);camera.updateMatrixWorld();
-    const center=new Vector3().project(camera),project=(az:number)=>new Vector3(...horizontalToWorld(0,az,4)).project(camera).sub(center);
-    assert.ok(project(0).y>0&&Math.abs(project(0).x)<1e-8);
-    assert.ok(project(90).x<0&&project(270).x>0&&project(180).y<0);
-  }
-});
-
-test('the sky uses the light directions and retains afterglow separately from the day/night transition',()=>{
+test('local light transitions stay brief across the seasons',()=>{
   const observer=observerAt(new Date('2026-01-01'),zone);
-  const atmosphere = makePondAtmosphere();
-  try {
-    for (const iso of ['2026-11-17T11:48:00Z', '2026-11-23T09:20:00Z', '2026-11-09T07:02:00Z']) {
-      const light = lightingAt(new Date(iso), observer);
-      atmosphere.update(0, light);
-      const moon = new Vector3(...light.moon).normalize();
-      assert.ok(atmosphere.uniforms.lunarDirection.value.distanceTo(moon) < 1e-9);
-      assert.ok(atmosphere.uniforms.atmosphereSun.value.distanceTo(new Vector3(...light.sun).normalize()) < 1e-9);
-      assert.ok(Math.abs(atmosphere.uniforms.lunarRight.value.dot(moon)) < 1e-9);
-      assert.ok(Math.abs(atmosphere.uniforms.lunarIllumination.value.dot(moon) - (1 - 2 * light.moonFraction)) < 1e-8);
-      if (light.moonAltitude < -.2 || light.moonFraction < .004) assert.equal(atmosphere.uniforms.lunarDiscVisibility.value, 0);
-    }
-  } finally { atmosphere.dispose(); }
-  assert.ok(pondSkyLight(-4).afterglow > .85);
-  assert.equal(pondSkyLight(-18).afterglow, 0);
-  assert.equal(pondSkyLight(-4).starlight, 0);
-  assert.equal(pondSkyLight(-18).starlight, 1);
   for(const month of [2,5,8,11]){
     let transitionMinutes=0;
     for(let minute=0;minute<1440;minute++){

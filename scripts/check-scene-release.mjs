@@ -15,7 +15,7 @@ const runtime = files.filter(file => /\.(?:html|css|js)$/.test(file.name));
 const runtimeGzip = runtime.reduce((total, file) => total + gzipSync(readFileSync(file.path)).byteLength, 0);
 const missing = files.some(({ name }) => name === 'index.html') ? [] : ['index.html'];
 for (const format of ['wide', 'tall']) for (const phase of ['day', 'night']) {
-  if (!files.some(file => file.name.startsWith(`pond-poster-${format}-${phase}-`) && file.name.endsWith('.webp'))) missing.push(`${format} ${phase} poster`);
+  if (!files.some(file => file.name.startsWith(`island-poster-${format}-${phase}-`) && file.name.endsWith('.webp'))) missing.push(`${format} ${phase} poster`);
 }
 const foreignAssets = files.filter(({ name }) => /^(?:youjing-|exhibit-)|\.(?:glb|gltf)$/i.test(name)).map(file => file.name);
 console.log(JSON.stringify({ bytes, runtimeGzip, missing, foreignAssets }, null, 2));

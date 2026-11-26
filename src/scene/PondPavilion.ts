@@ -3,7 +3,7 @@ import {
   MathUtils, MeshStandardMaterial, PointLight, Vector2,
 } from 'three';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
-import { Sculpture } from './PondCreatures';
+import { Sculpture } from './sculpture';
 import { weatherStone } from './stone-geometry';
 import { worldMaterial } from './world-material';
 

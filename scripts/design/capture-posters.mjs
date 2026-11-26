@@ -9,15 +9,15 @@ const chrome = process.env.CHROME_BIN || [
   'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',
   'google-chrome',
 ].find((path, index) => index === 2 || existsSync(path));
-const review = new URL('http://127.0.0.1:5175/scripts/design/scene-review.html');
-const output = resolve(root, process.argv[2] ?? 'public');
+const review = new URL('http://127.0.0.1:5175/');
+const output = resolve(root, process.argv[2] ?? 'src/floating-island/posters');
 const cache = join(root, 'node_modules', '.cache', 'pond');
 mkdirSync(cache, { recursive: true });
 const profile = mkdtempSync(join(cache, 'poster-browser-'));
 
 // Use an isolated local profile and a temporary loopback DevTools port.
 const browser = spawn(chrome, ['--headless=new', '--remote-debugging-port=0', '--no-first-run',
-  '--window-size=1440,900', '--user-data-dir=' + profile, 'about:blank'], {
+  '--window-size=1440,900', '--enable-unsafe-swiftshader', '--user-data-dir=' + profile, 'about:blank'], {
   windowsHide: true, stdio: ['ignore', 'ignore', 'pipe'],
 });
 const closed = new Promise(resolve => browser.once('close', resolve));
@@ -79,33 +79,33 @@ try {
     else request.resolve(result);
   });
 
+  await send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] });
   const files = [];
   for (const [format, width, height] of [['wide', 1440, 900], ['tall', 390, 844]]) {
     await send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: false });
-    for (const [phase, time] of [['day', '12:30'], ['night', '23:30']]) {
-      review.search = new URLSearchParams({ clean: '1', quality: 'high', time }).toString();
-      const navigation = await send('Page.navigate', { url: review.href });
-      if (navigation.errorText) throw new Error(navigation.errorText + ' at ' + review.href);
-      const deadline = Date.now() + 60000;
-      let status;
-      while (Date.now() < deadline) {
-        status = await evaluate(`location.href === ${JSON.stringify(review.href)} && ({
-          ready: document.body?.dataset.ready, failed: document.body?.dataset.failed
-        })`);
-        if (status?.ready || status?.failed) break;
-        await new Promise(resolve => setTimeout(resolve, 150));
-      }
-      if (!status?.ready || status.failed) throw new Error('Scene did not render at ' + review.href);
-      const { frame, glError } = await evaluate(`(() => {
-        const canvas = document.querySelector('canvas');
-        return { frame: JSON.parse(canvas.dataset.pond),
-          glError: canvas.getContext('webgl2').getError() };
+    const navigation = await send('Page.navigate', { url: review.href });
+    if (navigation.errorText) throw new Error(navigation.errorText + ' at ' + review.href);
+    const deadline = Date.now() + 45000;
+    let ready = false;
+    while (Date.now() < deadline) {
+      ready = await evaluate("document.querySelector('.floating-island')?.dataset.ready === 'true'");
+      if (ready) break;
+      await new Promise(resolve => setTimeout(resolve, 160));
+    }
+    if (!ready) throw new Error('The island did not render at ' + review.href);
+    for (const [phase, text] of [['day', '白天'], ['night', '夜晚']]) {
+      const glError = await evaluate(`(async () => {
+        const action = Array.from(document.querySelectorAll('.island-light button'))
+          .find(button => button.textContent.trim() === ${JSON.stringify(text)});
+        action.click();
+        for (const overlay of document.querySelectorAll('.island-header, .island-bottom')) {
+          overlay.style.visibility = 'hidden';
+        }
+        await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+        return document.querySelector('canvas').getContext('webgl2').getError();
       })()`);
-      if (glError || frame.time !== 0 || frame.renderProfile !== 'high' || !frame.boatAvailable) {
-        throw new Error('Unexpected scene state at ' + review.href);
-      }
-      await new Promise(resolve => setTimeout(resolve, 150));
-      const { data } = await send('Page.captureScreenshot', { format: 'webp', quality: 100, fromSurface: true });
+      if (glError) throw new Error('WebGL error ' + glError + ' during ' + format + ' ' + phase);
+      const { data } = await send('Page.captureScreenshot', { format: 'webp', quality: 88, fromSurface: true });
       const webp = Buffer.from(data, 'base64');
       const [imageWidth, imageHeight] = await evaluate(`(async () => {
         const image = new Image();
@@ -116,7 +116,7 @@ try {
       if (webp.toString('ascii', 8, 12) !== 'WEBP' || imageWidth !== width || imageHeight !== height) {
         throw new Error('Unexpected screenshot dimensions at ' + review.href);
       }
-      const name = `pond-poster-${format}-${phase}.webp`;
+      const name = `island-poster-${format}-${phase}.webp`;
       files.push({ name, webp });
       console.log(`${name} ${width}×${height} ${webp.length} bytes`);
     }

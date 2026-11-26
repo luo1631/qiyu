@@ -7,8 +7,8 @@ type Point = [number, number, number];
 type Side = -1 | 1;
 type Feather = { root: Point; tip: Point; width: number; camber: number; tone: number };
 type TuckedFeather = { start: [number, number]; end: [number, number]; width: number; reach?: number };
-const ivory = new Color('#f8f5ec');
-const shadedIvory = new Color('#c9cdd0');
+const ivory = new Color('#fff8e9');
+const shadedIvory = new Color('#e2dcd2');
 
 export function swanSurface(positions: number[], colors: number[], indices: number[]) {
   const geometry = new BufferGeometry();
@@ -47,7 +47,7 @@ class Plumage {
       const y = MathUtils.lerp(root[1], tip[1], t) + arch * camber;
       const vane = Math.max(.022, Math.sin(Math.PI * (t * .93 + .065)) ** .54) * (.86 + .14 * t);
       const edge = width * vane;
-      const tint = tone * (.76 + .24 * t);
+      const tint = tone * (.875 + .125 * t);
       if (tuck) {
         const at = MathUtils.lerp(tuck.start[0], tuck.end[0], t);
         const angle = MathUtils.lerp(tuck.start[1], tuck.end[1], t);
@@ -56,18 +56,18 @@ class Plumage {
         restSurface(at - .012, angle, near);
         restSurface(at + .012, angle, forward).sub(near).normalize();
         cross.crossVectors(normal, forward).normalize();
-        parked.addScaledVector(normal, .004 + arch * .014);
+        parked.addScaledVector(normal, .005 + arch * .010);
         parked.z += (tuck.reach ?? 0) * t * t;
         const half = tuck.width * vane;
-        front.copy(parked).addScaledVector(cross, half).addScaledVector(normal, -half * .12);
-        top.copy(parked).addScaledVector(normal, half * .17);
-        back.copy(parked).addScaledVector(cross, -half * .86).addScaledVector(normal, -half * .14);
-        under.copy(parked).addScaledVector(normal, -half * .21);
+        front.copy(parked).addScaledVector(cross, half).addScaledVector(normal, -half * .066);
+        top.copy(parked).addScaledVector(normal, half * .13);
+        back.copy(parked).addScaledVector(cross, -half * .90).addScaledVector(normal, -half * .081);
+        under.copy(parked).addScaledVector(normal, -half * .16);
       }
-      this.vertex(x + acrossX * edge, y - edge * .16, z + acrossZ * edge, tint * .94, tuck ? front : undefined);
-      this.vertex(x, y + edge * .13, z, Math.min(1, tint + .19), tuck ? top : undefined);
+      this.vertex(x + acrossX * edge, y - edge * .16, z + acrossZ * edge, tint * .98, tuck ? front : undefined);
+      this.vertex(x, y + edge * .13, z, Math.min(1, tint + .105), tuck ? top : undefined);
       this.vertex(x - acrossX * edge * .86, y - edge * .19, z - acrossZ * edge * .86, tint, tuck ? back : undefined);
-      this.vertex(x, y - edge * .25, z, tint * .82, tuck ? under : undefined);
+      this.vertex(x, y - edge * .25, z, tint * .94, tuck ? under : undefined);
       if (row === rows) continue;
       for (let col = 0; col < 4; col++) {
         const a = offset + row * 4 + col, b = offset + row * 4 + (col + 1) % 4;

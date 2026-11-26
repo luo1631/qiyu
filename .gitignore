@@ -11,6 +11,7 @@ pond-design-desktop.png
 *.local
 
 # Local authoring references and archived model files
+/scripts/archive/
 /PLAN.md
 /public/models/
 /public/pond-poster-*.png

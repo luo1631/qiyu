@@ -1,9 +1,9 @@
 import { createRoot } from 'react-dom/client';
-import App from './App';
-import './site-base.css';
+import FloatingIsland from './floating-island/FloatingIsland';
+
 function mountScene() {
   const root = createRoot(document.getElementById('qiyu-root')!);
-  root.render(<App />);
+  root.render(<FloatingIsland />);
   window.addEventListener('pagehide', () => root.unmount(), { once: true });
 }
 
