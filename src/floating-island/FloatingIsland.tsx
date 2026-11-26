@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import type { CSSProperties, MouseEvent } from 'react';
+import type { CSSProperties } from 'react';
 import { visitorTimeZone } from '../config/clock';
 import { lightingAt, observerAt } from '../scene/time';
 import { CatchResult, FishCollection, FishingDialog } from './FishingDialogs';
@@ -18,7 +18,7 @@ type Mode = 'auto' | 'day' | 'night';
 
 const text = {
   zh: {
-    title: '浮岛', back: '返回', local: '本地', auto: '随时间', day: '白天', night: '夜晚',
+    title: '浮岛', local: '本地', auto: '随时间', day: '白天', night: '夜晚',
     reset: '复位', resetLabel: '回到默认视角', light: '选择天色',
     mouse: '拖动环看 · 滚轮缩放', touch: '滑动环看 · 双指缩放',
     canvas: '海面上的栖屿浮岛。点击发光小船可垂钓，鱼咬钩后单击画面或按 Enter 收竿。方向键环看，加减键缩放，Home 键复位。编辑时按 Enter 放置。',
@@ -30,7 +30,7 @@ const text = {
     biteHelp: '左键收竿 · 随后三轮猜数，每轮 2 秒', biteTouch: '轻点收竿 · 随后三轮猜数，每轮 2 秒', guessing: '三轮猜数',
   },
   en: {
-    title: 'Floating Isle', back: 'Back', local: 'Local', auto: 'Local time', day: 'Day', night: 'Night',
+    title: 'Floating Isle', local: 'Local', auto: 'Local time', day: 'Day', night: 'Night',
     reset: 'Reset', resetLabel: 'Reset camera', light: 'Lighting',
     mouse: 'Drag to orbit · Scroll to zoom', touch: 'Swipe to orbit · Pinch to zoom',
     canvas: 'A floating island over the sea. Tap the glowing skiff to fish, then tap the scene or press Enter when a fish bites. Arrow keys orbit, plus and minus zoom, Home resets. In edit mode, Enter places at the center.',
@@ -43,27 +43,12 @@ const text = {
   },
 };
 
-const entry = new URLSearchParams(window.location.search);
-const language = entry.get('lang') === 'en' ? 'en' : 'zh';
+const language = new URLSearchParams(window.location.search).get('lang') === 'en' ? 'en' : 'zh';
 const copy = text[language];
-const youjing = new URL(import.meta.env.VITE_YOUJING_URL || '/', window.location.href);
-if (import.meta.env.DEV && youjing.hostname === '127.0.0.1') youjing.hostname = window.location.hostname;
 const timeZone = visitorTimeZone();
 const formatter = new Intl.DateTimeFormat(language === 'zh' ? 'zh-CN' : 'en-GB', {
   timeZone, hour: '2-digit', minute: '2-digit', hourCycle: 'h23',
 });
-
-function returnToYoujing(event: MouseEvent<HTMLAnchorElement>) {
-  if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
-  const prior = document.referrer ? new URL(document.referrer) : null;
-  const samePage = (a: string, b: string) => a.replace(/\/index\.html$/, '/').replace(/\/$/, '') ===
-    b.replace(/\/index\.html$/, '/').replace(/\/$/, '');
-  if (entry.get('from') === 'youjing' && prior?.origin === youjing.origin && history.length > 1 &&
-      (prior.origin !== window.location.origin || samePage(prior.pathname, youjing.pathname))) {
-    event.preventDefault();
-    history.back();
-  }
-}
 
 export default function FloatingIsland() {
   const [mode, setMode] = useState<Mode>('auto');
@@ -156,10 +141,7 @@ export default function FloatingIsland() {
       {status === 'loading' ? copy.loading : copy.unavailable}
     </p>}
     <header className="island-header">
-      <div className="island-identity">
-        <a href={youjing.href} onClick={returnToYoujing} className="island-back"><span aria-hidden="true">←</span> {copy.back}</a>
-        <h1 id="island-title">{copy.title}</h1>
-      </div>
+      <h1 id="island-title">{copy.title}</h1>
       <time className="island-local-time" dateTime={new Date(now).toISOString()} title={timeZone}>
         <span>{copy.local}</span> {formatter.format(now)}
       </time>

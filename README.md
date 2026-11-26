@@ -41,11 +41,11 @@ npm run check:release
 
 运行开发服务后，`npm run posters:capture` 可从真实入口重拍宽屏和窄屏昼夜静图，用于加载和 WebGL 回退。捕获工具可用 `CHROME_BIN` 指定浏览器。发布检查要求四张实际场景静图和完整的独立入口。
 
-## 跳转与发布
+## 独立入口与发布
 
-浮岛使用自己的入口、渲染和页面状态。已有的跨页链接传入 `from=youjing` 和 `lang` 时，返回可回到访问前的历史记录。直接打开时，「返回」使用配置的首页地址。开发默认指向 5174 端口，生产默认指向同域根路径。独立域名发布时，在 `.env.production.local` 设置 `VITE_YOUJING_URL` 后重新构建。
+栖屿在子域根路径独立运行。默认使用中文，地址附上 `?lang=en` 时使用英文。[打开栖屿](https://qiyu.luo1631.com/)
 
-发布本目录的 `dist`。相对资源路径支持域名根目录或 `/qiyu/` 子路径。部署到子路径时挂载完整的 `dist`。[本地 Wrangler 配置](wrangler.jsonc)
+将本目录的 `dist` 发布到栖屿子域的根路径。[本地 Wrangler 配置](wrangler.jsonc)
 
 ## 验收
 
